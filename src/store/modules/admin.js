@@ -1,6 +1,7 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo } from '@/api/admin'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import Cookies from 'js-cookie'
 
 const getDefaultState = () => {
   return {
@@ -50,9 +51,9 @@ const actions = {
         const { data } = response
 
         if (!data) {
-          return reject('Verification failed, please Login again.')
+          return reject('验证失败, 请重新登录')
         }
-
+        Cookies.set('userInfo',data)
         const { name, avatar } = data
 
         commit('SET_NAME', name)
@@ -94,4 +95,3 @@ export default {
   mutations,
   actions
 }
-

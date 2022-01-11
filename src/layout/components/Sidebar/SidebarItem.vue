@@ -14,6 +14,7 @@
       </template>
       <sidebar-item
         v-for="child in item.children"
+        v-if="test(child)"
         :key="child.path"
         :is-nest="true"
         :item="child"
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import path from 'path'
 import { isExternal } from '@/utils/validate'
 import Item from './Item'
@@ -36,6 +38,7 @@ export default {
   components: { Item, AppLink },
   mixins: [FixiOSBug],
   props: {
+    platformType:null,
     // route object
     item: {
       type: Object,
@@ -57,6 +60,23 @@ export default {
     return {}
   },
   methods: {
+    test(item){
+      // console.log(this.platformType)
+      if(this.platformType==0){
+        return true;
+      }
+      if(this.platformType==1){
+        if(item.path=='phone'){
+          return false;
+        }
+      }
+      if(this.platformType==2){
+        if(item.path=='device'){
+          return false;
+        }
+      }
+      return true
+    },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {

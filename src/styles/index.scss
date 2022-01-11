@@ -6,6 +6,7 @@
 
 body {
   height: 100%;
+  background-color: #eff1f4;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -61,5 +62,37 @@ div:focus {
 
 // main-container global css
 .app-container {
-  padding: 20px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  margin: 20px;
+  padding: 30px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+}
+
+.href_div a{
+  color: #06c;
+  padding: 0 8px;
+}
+
+.type_div p{
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.type_div .svg-icon{
+  width: 2em!important;
+  height: 2em!important;
+}
+.filter-container{
+  background-color: #fff;
+  padding: 40px 30px 20px 30px;
+  margin: 20px 20px 0 20px;
+  border-radius: 4px;
+  // color: #666;
+  font-size: 14px;
+  // box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
+}
+
+.switch-box{
+  width: 30%;
 }
