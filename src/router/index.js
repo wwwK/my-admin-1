@@ -169,6 +169,31 @@ export const constantRoutes = [{
     }]
   },
   {
+    path: '/data',
+    component: Layout,
+    meta: {
+      title: '数据统计',
+      icon: 'el-icon-s-data'
+    },
+    children: [{
+      path: 'device',
+      name: 'Device',
+      component: () => import('@/views/data/index'),
+      meta: {
+        title: '设备端',
+        icon: 'el-icon-postcard'
+      }
+    },{
+      path: 'phone',
+      name: 'Phone',
+      component: () => import('@/views/data/index'),
+      meta: {
+        title: '手机端',
+        icon: 'el-icon-mobile-phone'
+      }
+    }]
+  },
+  {
     path: '/account',
     component: Layout,
     redirect: '/index',
