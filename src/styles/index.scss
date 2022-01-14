@@ -96,3 +96,10 @@ div:focus {
 .switch-box{
   width: 30%;
 }
+
+ .txt-line2{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}

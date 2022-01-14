@@ -156,6 +156,19 @@ export const constantRoutes = [{
     ]
   },
   {
+    path: '/yuyin',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'Yuyin',
+      component: () => import('@/views/yuyin/index'),
+      meta: {
+        title: '语音转写',
+        icon: 'el-icon-headset'
+      }
+    }]
+  },
+  {
     path: '/form1',
     component: Layout,
     children: [{
