@@ -134,7 +134,7 @@
         <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" @pagination="getList" />
       </div>
       <!-- 音频播放弹窗 -->
-      <el-dialog v-if="playDialogVisible" :title=" '正在播放 - '+playDialog.title" :visible.sync="playDialogVisible">
+      <el-dialog v-if="playDialogVisible" :title=" '正在播放 - '+playDialog.title" width="35%" top="25vh" :visible.sync="playDialogVisible">
         <div :key="playDialog.file">
           <VuePlyr ref="plyr" :options="options">
             <audio controls crossorigin playsinline>
@@ -202,6 +202,10 @@
           i18n: {
             speed: '速度',
             normal: '正常'
+          },
+          speed:{
+            selected:1,
+            options:[0.5,1,1.5,2]
           }
         },
         pickerOptions: {

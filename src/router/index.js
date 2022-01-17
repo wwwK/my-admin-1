@@ -52,7 +52,8 @@ export const constantRoutes = [{
       component: () => import('@/views/home/index'),
       meta: {
         title: '首页',
-        icon: 'dashboard'
+        icon: 'dashboard',
+        breadcrumb: false
       }
     }]
   },
