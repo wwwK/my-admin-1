@@ -36,7 +36,7 @@
     <el-dialog v-if="dialogAuthVisible" title="查看权限" :visible.sync="dialogAuthVisible" width="30%">
       <div style="margin-top: 10px">
         <el-checkbox-group v-model="authList" size="small">
-          <el-checkbox v-for="(item,index) in permissions" :label="item.cn_name" :key="item.id"
+          <el-checkbox style="margin-bottom: 10px;margin-left: 0;" v-for="(item,index) in permissions" :label="item.cn_name" :key="item.id"
             border></el-checkbox>
         </el-checkbox-group>
       </div>

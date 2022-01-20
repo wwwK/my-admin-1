@@ -58,12 +58,12 @@
     <el-dialog :title="isAddForm?'添加新账号':'编辑账号'" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="accountForm" ref="accountForm" label-width="100px">
         <el-form-item label="用户名" prop="username" :rules="[{required: true, message: '请输入登录用户名', trigger: 'blur'}]" style="width: 70%;">
-          <el-input v-model="accountForm.username" autocomplete="off"></el-input>
+          <el-input v-model="accountForm.username" :disabled="accountForm.username=='admin'" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="昵称" style="width: 70%;">
           <el-input v-model="accountForm.nickname" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password" :rules="[{required: true, message: '请输入密码', trigger: 'blur'}]" style="width: 70%;">
+        <el-form-item label="密码" prop="password" :rules="[{required: isAddForm, message: '请输入密码', trigger: 'blur'}]" style="width: 70%;">
           <el-input v-model="accountForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="手机号" style="width: 70%;">
@@ -208,6 +208,7 @@
         this.accountForm = {
           ...data
         }
+        this.accountForm.role_id=data.roles[0].id
       },
       //部门添加
       addAccount() {
