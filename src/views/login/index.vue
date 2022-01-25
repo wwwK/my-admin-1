@@ -36,6 +36,7 @@
 </template>
 
 <script>
+  import md5 from 'md5'
   export default {
     name: 'Login',
     data() {
@@ -82,7 +83,11 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true
-            this.$store.dispatch('user/login', this.loginForm).then(() => {
+            let params={
+              'username':this.loginForm.username,
+              'password':md5(this.loginForm.password+'pioneer')
+            }
+            this.$store.dispatch('user/login', params).then(() => {
               this.$router.push({
                 path: '/'
               })
