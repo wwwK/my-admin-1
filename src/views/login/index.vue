@@ -85,7 +85,7 @@
             this.loading = true
             let params={
               'username':this.loginForm.username,
-              'password':md5(this.loginForm.password+'pioneer')
+              'password':md5(md5(this.loginForm.password+'pioneer')+'vaa')
             }
             this.$store.dispatch('user/login', params).then(() => {
               this.$router.push({

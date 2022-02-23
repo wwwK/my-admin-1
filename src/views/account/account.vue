@@ -101,6 +101,7 @@
 </template>
 
 <script>
+  import md5 from 'md5'
   import {
     getAccount,
     addAccount,
@@ -139,7 +140,7 @@
         authVisible: false,
         dialogFormVisible: false,
         isAddForm: false,
-        accountForm: {},
+        accountForm: {id:''},
         departments: {},
         roles: {},
         department_id: null,
@@ -208,7 +209,9 @@
         this.accountForm = {
           ...data
         }
-        this.accountForm.role_id=data.roles[0].id
+        if(data.roles.length>0){
+          this.accountForm.role_id=data.roles[0].id
+        }
       },
       //部门添加
       addAccount() {
@@ -220,6 +223,7 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.dialogFormVisible = false
+            this.accountForm.password=md5(md5(this.accountForm.password+'pioneer')+'vaa')
             addAccount(this.accountForm).then(res => {
               if (res.code == 200) {
                 this.$message({
@@ -241,6 +245,7 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.dialogFormVisible = false
+            this.accountForm.password=md5(md5(this.accountForm.password+'pioneer')+'vaa')
             updateAccount(this.accountForm).then(res => {
               if (res.code == 200) {
                 this.$message({
