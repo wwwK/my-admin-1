@@ -223,8 +223,9 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.dialogFormVisible = false
-            this.accountForm.password=md5(md5(this.accountForm.password+'pioneer')+'vaa')
-            addAccount(this.accountForm).then(res => {
+            let params = {...this.accountForm}
+            params.password=md5(md5(params.password+'pioneer')+'vaa')
+            addAccount(params).then(res => {
               if (res.code == 200) {
                 this.$message({
                   message: '账号创建成功！',
@@ -245,8 +246,9 @@
         this.$refs['accountForm'].validate((valid) => {
           if (valid) {
             this.dialogFormVisible = false
-            this.accountForm.password=md5(md5(this.accountForm.password+'pioneer')+'vaa')
-            updateAccount(this.accountForm).then(res => {
+            let params = {...this.accountForm}
+            params.password=md5(md5(params.password+'pioneer')+'vaa')
+            updateAccount(params).then(res => {
               if (res.code == 200) {
                 this.$message({
                   message: '信息更新成功！',
