@@ -126,28 +126,36 @@
           name: ''
         },
         LineForm:{},
+        timer:null,
         dialogFormVisible:false
       }
     },
     created() {
       this.root=process.env.VUE_APP_PATH
       this.getList()
+      //轮询保持实时信息
+      this.timer=setInterval(()=>{
+        this.getList(false)
+      },1000)
     },
     methods: {
-      getList() {
-        this.listLoading = true
+      getList(isLoading=true) {
+        if(isLoading){
+          this.listLoading = true
+        }
         getDeviceLine({
           page: this.page,
           limit: this.limit,
           code:this.$route.query.code
         }).then(res => {
-          this.listLoading = false
           this.list = res.data.data
           this.total = res.data.total
-          console.log(res)
-          setTimeout(() => {
+          if(isLoading){
             this.listLoading = false
-          }, 1.5 * 1000)
+            setTimeout(() => {
+              this.listLoading = false
+            }, 1.5 * 1000)
+          }
         })
       },
       //提交端口编辑的表单
@@ -180,6 +188,11 @@
       },
       indexMethod(index) {
         return index + 1 + (this.page - 1) * this.limit;
+      }
+    },
+    beforeDestroy() {
+      if(this.timer){
+        clearInterval(this.timer)
       }
     }
   }

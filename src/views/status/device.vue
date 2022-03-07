@@ -90,25 +90,39 @@
         listLoading: true,
         filter: {
           name: ''
-        }
+        },
+        timer:null
       }
     },
     created() {
       this.getList()
+      //轮询保持设备实时在线
+      this.timer=setInterval(()=>{
+        this.getList(false)
+      },1000)
+    },
+    beforeDestroy() {
+      if(this.timer){
+        clearInterval(this.timer)
+      }
     },
     methods: {
-      getList() {
-        this.listLoading = true
+      getList(isLoading=true) {
+        if(isLoading){
+          this.listLoading = true
+        }
         getDeviceStatus({
           page: this.page,
           limit: this.limit
         }).then(res => {
-          this.listLoading = false
           this.list = res.data.data
           this.total = res.data.total
-          setTimeout(() => {
+          if(isLoading){
             this.listLoading = false
-          }, 1.5 * 1000)
+            setTimeout(() => {
+              this.listLoading = false
+            }, 1.5 * 1000)
+          }
         })
       },
       handleCurrentChange(val) {
