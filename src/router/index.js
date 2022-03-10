@@ -148,7 +148,7 @@ export const constantRoutes = [{
       {
         path: 'phone',
         name: 'Tree',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/device/phone/index'),
         meta: {
           title: '手机端',
           icon: 'el-icon-mobile-phone'

@@ -69,7 +69,7 @@
         </el-table-column>
         <el-table-column label="分机号码" align="center">
           <template slot-scope="scope">
-            {{ scope.row.line_tel || '未知'}}
+            {{ scope.row.line_tel || '未知'}}({{scope.row.line || ''}})
           </template>
         </el-table-column>
         <el-table-column class-name="status-col" label="录音类型" width="180" align="center">
