@@ -1,9 +1,9 @@
 <template>
   <div class="app-container1" style="margin-top: 15px;">
     <div class="filter-container1" style="margin-bottom: 30px;">
-      <el-input class="filter-item" v-model="filter.name" size="small" placeholder="设备名称" style="width: 180px;margin-right: 30px;">
+      <el-input class="filter-item" v-model="filter.name" size="small" placeholder="名称" style="width: 180px;margin-right: 30px;">
       </el-input>
-      <el-input class="filter-item" v-model="filter.code" size="small" placeholder="设备编号" style="width: 180px;margin-right: 30px;">
+      <el-input class="filter-item" v-model="filter.code" size="small" placeholder="手机号" style="width: 180px;margin-right: 30px;">
       </el-input>
       <el-select requie v-model="filter.group_id" size="small" placeholder="请选择分组">
         <el-option label="无" value="0"></el-option>
@@ -14,19 +14,19 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" fit highlight-current-row>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="#" type="index" align="center" :index="indexMethod" />
-      <el-table-column label="设备名称" width="200" align="center">
+      <el-table-column label="名称" width="200" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name || '无' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="设备编号" width="130" align="center">
+      <el-table-column label="手机号" width="130" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="设备分组" width="150" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.group.length >0 ? '' :'info'">{{ scope.row.group.length >0 ? scope.row.group[0].name : '无' }}</el-tag>
+          <!-- <el-tag :type="scope.row.group.length >0 ? '' :'info'">{{ scope.row.group.length >0 ? scope.row.group[0].name : '无' }}</el-tag> -->
         </template>
       </el-table-column>
       <el-table-column label="设备线路" width="160" align="center">
@@ -39,7 +39,7 @@
           {{ scope.row.ip || '未知'}}
         </template>
       </el-table-column>
-      <el-table-column label="设备状态" width="160" sortable align="center">
+      <el-table-column label="是否禁用" width="160" sortable align="center">
         <template slot-scope="scope">
           <el-tooltip :content="scope.row.status ==1 ? '启用':'禁用' " placement="left" effect="light">
             <el-switch v-model="scope.row.status" @change="changeStatus($event,scope.row)" active-color="#13ce66"
@@ -70,10 +70,10 @@
     <!-- 编辑 -->
     <el-dialog title="编辑设备" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="deviceForm" label-width="100px">
-        <el-form-item label="设备名称" style="width: 70%;">
+        <el-form-item label="名称" style="width: 70%;">
           <el-input v-model="deviceForm.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="设备编码" style="width: 50%;">
+        <el-form-item label="手机号" style="width: 50%;">
           <el-input v-model="deviceForm.code" disabled autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备分组" prop="group_id" style="width: 50%;">
@@ -81,9 +81,6 @@
             <!-- <el-option label="无" value="1"></el-option> -->
             <el-option v-for="(item,index) in pnames" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="设备线路" style="width: 30%;">
-          <el-input v-model="deviceForm.line" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -100,7 +97,7 @@
     updateStatus,
     updateDevice,
     deleteDevice,
-  } from '@/api/device.js'
+  } from '@/api/app/device.js'
   import Pagination from '@/components/Pagination'
 
   export default {
