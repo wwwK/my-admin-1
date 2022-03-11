@@ -2,14 +2,14 @@ import request from '@/utils/request1'
 
 export function getDevice(params) {
   return request({
-    url: '/app/devices',
+    url: '/appDevice',
     method: 'get',
     params
   })
 }
 export function updateStatus(params) {
   return request({
-    url: '/app/device/status',
+    url: '/appDevice/status',
     method: 'patch',
     params
   })
@@ -19,14 +19,14 @@ export function updateStatus(params) {
  */
 export function updateDevice(data) {
   return request({
-    url: '/app/devices/'+data.id,
+    url: '/appDevice/'+data.id,
     method: 'put',
     data
   })
 }
 export function deleteDevice(id) {
   return request({
-    url: '/app/devices/'+id,
+    url: '/appDevice/'+id,
     method: 'delete',
   })
 }

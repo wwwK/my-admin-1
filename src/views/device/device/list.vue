@@ -39,7 +39,7 @@
           {{ scope.row.ip || '未知'}}
         </template>
       </el-table-column>
-      <el-table-column label="设备状态" width="160" sortable align="center">
+      <el-table-column label="是否禁用" width="160" sortable align="center">
         <template slot-scope="scope">
           <el-tooltip :content="scope.row.status ==1 ? '启用':'禁用' " placement="left" effect="light">
             <el-switch v-model="scope.row.status" @change="changeStatus($event,scope.row)" active-color="#13ce66"
@@ -68,9 +68,9 @@
     </div>
 
     <!-- 编辑 -->
-    <el-dialog title="编辑设备" :visible.sync="dialogFormVisible" width="30%">
+    <el-dialog title="编辑设备" :visible.sync="dialogFormVisible" width="500px">
       <el-form :model="deviceForm" label-width="100px">
-        <el-form-item label="设备名称" style="width: 70%;">
+        <el-form-item label="设备名称" style="width: 90%;">
           <el-input v-model="deviceForm.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设备编码" style="width: 50%;">
@@ -82,7 +82,7 @@
             <el-option v-for="(item,index) in pnames" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="设备线路" style="width: 30%;">
+        <el-form-item label="设备线路" style="width: 50%;">
           <el-input v-model="deviceForm.line" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>

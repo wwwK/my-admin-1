@@ -1,7 +1,7 @@
 <template>
   <div class="device-call">
     <!-- 筛选查询 -->
-    <div class="filter-container" style="display: none;">
+    <div class="filter-container">
       <el-form :inline="true" :model="filter" ref="filter" class="demo-form-inline">
         <el-form-item label="设备名称" prop="name" style="margin-right: 30px;">
           <el-input v-model="filter.name" placeholder="请输入设备名称"></el-input>

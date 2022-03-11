@@ -21,34 +21,29 @@
             <img v-else style="width: 32px;" src="@/assets/images/off.png" >
           </template>
         </el-table-column>
-        <el-table-column label="来电记录" width="160" align="center">
+        <el-table-column label="设备版本" width="160" align="center">
           <template slot-scope="scope">
-            {{ scope.row.laidian }}
+            {{ scope.row.version }}
           </template>
         </el-table-column>
-        <el-table-column label="去电记录" width="160" align="center">
+        <el-table-column label="手机型号" width="160" align="center">
           <template slot-scope="scope">
-            {{ scope.row.qudian }}
+            {{ scope.row.mobile_type }}
           </template>
         </el-table-column>
-        <el-table-column label="未接来电" width="160" align="center">
+        <el-table-column label="在线类型" width="160" align="center">
           <template slot-scope="scope">
-            {{ scope.row.weijie }}
+            {{ scope.row.network }}
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="created_at" label="最后通话时间" width="240">
+        <el-table-column align="center" prop="created_at" label="到期时间" width="240">
           <template slot-scope="scope">
-            <span v-if="scope.row.status">{{ scope.row.status.last_call_time || '无'}}</span>
-            <span v-else>无</span>
+            <span>{{ scope.row.end_time || '无'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <router-link :to="{path:'/status/device/line',query:{code:scope.row.code}}">
-              <el-button size="mini" type="warning" plain >端口</el-button>
-              <!-- <el-button size="mini" type="warning" plain @click="handleEdit(scope.$index, scope.row)">端口</el-button> -->
-            </router-link>
-            <router-link :to="{path:'/call/device',query:{code:scope.row.code}}">
+            <router-link :to="{path:'/call/phone',query:{code:scope.row.code}}">
               <el-button size="mini" type="info" plain style="margin-left: 10px;">记录</el-button>
             </router-link>
           </template>
@@ -63,7 +58,7 @@
 
 <script>
   import {
-    getDeviceStatus
+    getAppStatus
   } from '@/api/status.js'
   import Pagination from '@/components/Pagination'
 
@@ -111,7 +106,7 @@
         if(isLoading){
           this.listLoading = true
         }
-        getDeviceStatus({
+        getAppStatus({
           page: this.page,
           limit: this.limit
         }).then(res => {

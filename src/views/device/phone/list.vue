@@ -68,7 +68,7 @@
     </div>
 
     <!-- 编辑 -->
-    <el-dialog title="编辑设备" :visible.sync="dialogFormVisible" width="30%">
+    <el-dialog title="编辑设备" :visible.sync="dialogFormVisible" width="500px">
       <el-form :model="deviceForm" label-width="100px">
         <el-form-item label="名称" style="width: 70%;">
           <el-input v-model="deviceForm.name" autocomplete="off"></el-input>
@@ -180,6 +180,7 @@
        */
       changeStatus(status, data) {
         updateStatus({
+          id:data.id,
           code: data.code,
           status: status
         }).then(res => {
@@ -194,7 +195,9 @@
        */
       submitEditForm() {
         this.dialogFormVisible = false
-        console.log(this.deviceForm)
+        if(this.deviceForm.group_id=='无'){
+          this.deviceForm.group_id=0;
+        }
         updateDevice(this.deviceForm).then(res => {
           if (res.code == 200) {
             this.$message({
