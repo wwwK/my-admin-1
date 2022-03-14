@@ -200,7 +200,7 @@ export const constantRoutes = [{
     },{
       path: 'phone',
       name: 'Phone',
-      component: () => import('@/views/data/index'),
+      component: () => import('@/views/data/phone'),
       meta: {
         title: '手机端',
         icon: 'el-icon-mobile-phone'

@@ -3,40 +3,30 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" fit highlight-current-row>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="#" type="index" align="center" :index="indexMethod" />
-     <el-table-column label="设备名称" width="200" align="center">
+     <el-table-column label="设备名称" width="280" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name || '无' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="设备编号" width="130" align="center">
+      <el-table-column label="手机号" width="200" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="设备分组" width="150" align="center">
+      <el-table-column class-name="status-col" label="设备分组" width="280" align="center">
         <template slot-scope="scope">
           <p>无</p>
         </template>
       </el-table-column>
-      <el-table-column label="设备线路" width="160" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.line || '未知' }}
-        </template>
-      </el-table-column>
-      <el-table-column label="设备IP" width="160" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.ip || '未知' }}
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" prop="created_at" label="接入时间" width="240">
+      <el-table-column align="center" prop="created_at" label="接入时间" width="280">
         <template slot-scope="scope">
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button size="medium" type="primary" @click="register(scope.row)">注册</el-button>
+          <el-button size="mini" type="primary" @click="register(scope.row)">注册</el-button>
+          <el-button size="mini" type="danger" plain @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,10 +38,10 @@
 
 <script>
   import {
-    getDevice,
-    updateStatus,
-    updateDevice,
-    deleteDevice,
+    getAppDevice,
+    updateAppStatus,
+    updateAppDevice,
+    deleteAppDevice,
   } from '@/api/device.js'
   import Pagination from '@/components/Pagination'
 
@@ -97,11 +87,10 @@
           status:0
         };
         param = Object.assign(param,this.filter)
-        getDevice(param).then(res => {
+        getAppDevice(param).then(res => {
           this.listLoading = false
           this.list = res.data.data
           this.total = res.data.total
-          console.log(res)
           setTimeout(() => {
             this.listLoading = false
           }, 1.5 * 1000)
@@ -121,7 +110,8 @@
        * 注册（更新设备状态）
        */
       register(data) {
-        updateStatus({
+        updateAppStatus({
+          id:data.id,
           code: data.code,
           status: 1
         }).then(res => {
@@ -134,6 +124,29 @@
         })
       },
 
+      handleDelete(data) {
+        this.$confirm('确定要删除该未注册设备吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteAppDevice(data.id).then(res => {
+            if (res.code == 200) {
+              this.getList()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }
+          })
+        }).catch((err) => {
+          console.log(err)
+          this.$message({
+            type: 'info',
+            message: '取消删除'
+          });
+        });
+      }
     }
   }
 </script>

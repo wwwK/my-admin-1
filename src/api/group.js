@@ -41,3 +41,34 @@ export function deleteDeviceGroup(id) {
   })
 }
 
+//手机端
+export function getAppGroup(params) {
+  return request({
+    url: '/appGroup',
+    method: 'get',
+    params
+  })
+}
+
+export function addAppGroup(data) {
+  return request({
+    url: '/appGroup',
+    method: 'post',
+    data
+  })
+}
+
+export function updateAppGroup(data) {
+  return request({
+    url: '/appGroup/'+data.id,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteAppGroup(id) {
+  return request({
+    url: '/appGroup/'+id,
+    method: 'delete',
+  })
+}

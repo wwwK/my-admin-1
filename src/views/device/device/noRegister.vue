@@ -101,7 +101,6 @@
           this.listLoading = false
           this.list = res.data.data
           this.total = res.data.total
-          console.log(res)
           setTimeout(() => {
             this.listLoading = false
           }, 1.5 * 1000)

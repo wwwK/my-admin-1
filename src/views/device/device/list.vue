@@ -145,7 +145,6 @@
           limit: this.limit
         };
         param = Object.assign(param,this.filter)
-        console.log(param)
         getDevice(param).then(res => {
           this.listLoading = false
           this.list = res.data.data

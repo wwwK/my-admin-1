@@ -31,3 +31,35 @@ export function deleteDevice(id) {
   })
 }
 
+
+// 手机端
+export function getAppDevice(params) {
+  return request({
+    url: '/appDevice',
+    method: 'get',
+    params
+  })
+}
+export function updateAppStatus(params) {
+  return request({
+    url: '/appDevice/status',
+    method: 'patch',
+    params
+  })
+}
+/**
+ * 更新设备信息
+ */
+export function updateAppDevice(data) {
+  return request({
+    url: '/appDevice/'+data.id,
+    method: 'put',
+    data
+  })
+}
+export function deleteAppDevice(id) {
+  return request({
+    url: '/appDevice/'+id,
+    method: 'delete',
+  })
+}

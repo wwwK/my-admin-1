@@ -14,32 +14,22 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" fit highlight-current-row>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="#" type="index" align="center" :index="indexMethod" />
-      <el-table-column label="名称" width="200" align="center">
+      <el-table-column label="名称" width="250" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name || '无' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="手机号" width="130" align="center">
+      <el-table-column label="手机号" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="设备分组" width="150" align="center">
+      <el-table-column class-name="status-col" label="设备分组" width="250" align="center">
         <template slot-scope="scope">
-          <!-- <el-tag :type="scope.row.group.length >0 ? '' :'info'">{{ scope.row.group.length >0 ? scope.row.group[0].name : '无' }}</el-tag> -->
+          <el-tag :type="scope.row.group.length >0 ? '' :'info'">{{ scope.row.group.length >0 ? scope.row.group[0].name : '无' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="设备线路" width="160" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.line || '未知' }}
-        </template>
-      </el-table-column>
-      <el-table-column label="设备IP" width="160" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.ip || '未知'}}
-        </template>
-      </el-table-column>
-      <el-table-column label="是否禁用" width="160" sortable align="center">
+      <el-table-column label="是否禁用" width="200" sortable align="center">
         <template slot-scope="scope">
           <el-tooltip :content="scope.row.status ==1 ? '启用':'禁用' " placement="left" effect="light">
             <el-switch v-model="scope.row.status" @change="changeStatus($event,scope.row)" active-color="#13ce66"
@@ -93,11 +83,11 @@
 
 <script>
   import {
-    getDevice,
-    updateStatus,
-    updateDevice,
-    deleteDevice,
-  } from '@/api/app/device.js'
+    getAppDevice,
+    updateAppStatus,
+    updateAppDevice,
+    deleteAppDevice,
+  } from '@/api/device.js'
   import Pagination from '@/components/Pagination'
 
   export default {
@@ -139,11 +129,10 @@
         this.listLoading = true
         let param = {
           page: this.page,
-          limit: this.limit
+          limit: this.limit,
         };
         param = Object.assign(param,this.filter)
-        console.log(param)
-        getDevice(param).then(res => {
+        getAppDevice(param).then(res => {
           this.listLoading = false
           this.list = res.data.data
           this.total = res.data.total
@@ -179,7 +168,7 @@
        * 更新设备状态
        */
       changeStatus(status, data) {
-        updateStatus({
+        updateAppStatus({
           id:data.id,
           code: data.code,
           status: status
@@ -198,7 +187,7 @@
         if(this.deviceForm.group_id=='无'){
           this.deviceForm.group_id=0;
         }
-        updateDevice(this.deviceForm).then(res => {
+        updateAppDevice(this.deviceForm).then(res => {
           if (res.code == 200) {
             this.$message({
               message: '数据更新成功！',
@@ -217,7 +206,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteDevice(data.id).then(res => {
+          deleteAppDevice(data.id).then(res => {
             if (res.code == 200) {
               this.getList()
               this.$message({

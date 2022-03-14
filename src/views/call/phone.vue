@@ -224,8 +224,8 @@
       }
     },
     created() {
-      let code = this.$route.query.code
-      code ? this.filter.code=code : '';
+      let id = this.$route.query.id
+      id ? this.filter.id=id : '';
       this.getList()
     },
     methods: {

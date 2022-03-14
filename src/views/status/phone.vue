@@ -17,7 +17,7 @@
         </el-table-column>
         <el-table-column class-name="status-col" label="在线状态" width="150" align="center">
           <template slot-scope="scope">
-            <img v-if="scope.row.status && scope.row.status.status==1" style="width: 35px;" src="@/assets/images/online.png" >
+            <img v-if="scope.row.online && scope.row.online==1" style="width: 35px;" src="@/assets/images/online.png" >
             <img v-else style="width: 32px;" src="@/assets/images/off.png" >
           </template>
         </el-table-column>
@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <router-link :to="{path:'/call/phone',query:{code:scope.row.code}}">
+            <router-link :to="{path:'/call/phone',query:{id:scope.row.id}}">
               <el-button size="mini" type="info" plain style="margin-left: 10px;">记录</el-button>
             </router-link>
           </template>

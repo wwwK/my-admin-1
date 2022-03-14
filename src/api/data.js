@@ -22,3 +22,11 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function getAppCount(token) {
+  return request({
+    url: '/appCount',
+    method: 'get',
+    params: { token }
+  })
+}

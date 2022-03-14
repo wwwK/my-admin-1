@@ -3,27 +3,27 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" fit highlight-current-row>
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="#" type="index" align="center" :index="indexMethod" />
-      <el-table-column label="分组名称" width="250" align="center">
+      <el-table-column label="分组名称" width="350" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name || '无' }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="上级分组" width="220" align="center">
+      <!-- <el-table-column label="上级分组" width="220" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.pname.length >0 ? '' :'info'">{{ scope.row.pname.length >0 ? scope.row.pname[0].name : '无' }}</el-tag>
         </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="设备数量" width="150" align="center">
+      </el-table-column> -->
+      <el-table-column class-name="status-col" label="设备数量" width="200" align="center">
         <template slot-scope="scope">
-          <p>{{scope.row.device_count}}</p>
+          <p>{{scope.row.app_count}}</p>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="创建时间" width="280">
+      <el-table-column align="center" prop="created_at" label="创建时间" width="320">
         <template slot-scope="scope">
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="updated_at" label="更新时间" width="280">
+      <el-table-column align="center" prop="updated_at" label="更新时间" width="320">
         <template slot-scope="scope">
           <span>{{ scope.row.updated_at }}</span>
         </template>
@@ -46,12 +46,12 @@
           style="width: 70%;">
           <el-input v-model="deviceGroupForm.name" autocomplete="on"></el-input>
         </el-form-item>
-        <el-form-item label="上级分组" required prop="pid" :rules="[{required:true,message:'请选择上级分组'}]" style="width: 50%;">
+        <!-- <el-form-item label="上级分组" required prop="pid" :rules="[{required:true,message:'请选择上级分组'}]" style="width: 50%;">
           <el-select requie v-model="deviceGroupForm.pid" placeholder="请选择分组">
             <el-option label="无" value="0"></el-option>
             <el-option v-for="(item,index) in pnames" v-show="item.id != deviceGroupForm.id" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="submitForm('deviceGroupForm')">提 交</el-button>
           <el-button @click="resetForm('deviceGroupForm')">取 消</el-button>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  import {getDeviceGroup,addDeviceGroup,deleteDeviceGroup,updateDeviceGroup
+  import {getAppGroup,addAppGroup,deleteAppGroup,updateAppGroup
   } from '@/api/group.js'
   import Pagination from '@/components/Pagination'
 
@@ -118,7 +118,7 @@
           limit: this.limit,
         };
         param = Object.assign(param, this.filter)
-        getDeviceGroup(param).then(res => {
+        getAppGroup(param).then(res => {
           this.listLoading = false
           this.list = res.data.data
           this.pnames= res.data.pnames;
@@ -156,7 +156,7 @@
        * 添加设备分组
        */
       toAddDeviceGroup() {
-        addDeviceGroup(this.deviceGroupForm).then(res => {
+        addAppGroup(this.deviceGroupForm).then(res => {
           if (res.code == 200) {
             this.$message({
               message: '设备组添加成功！',
@@ -169,7 +169,7 @@
       },
       //更新设备组
       toUpdateGroup(){
-        updateDeviceGroup(this.deviceGroupForm).then(res => {
+        updateAppGroup(this.deviceGroupForm).then(res => {
           if (res.code == 200) {
             this.$message({
               message: '数据更新成功！',
@@ -194,7 +194,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteDeviceGroup(data.id).then(res => {
+          deleteAppGroup(data.id).then(res => {
             if (res.code == 200) {
               this.getList()
               this.$message({
