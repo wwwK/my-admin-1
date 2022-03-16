@@ -7,17 +7,23 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="Loading" fit highlight-current-row>
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <el-table-column label="#" type="index" align="center" :index="indexMethod" />
-      <el-table-column label="部门名称" width="300" align="center">
+      <el-table-column label="部门名称" width="280" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="账号数量" width="300" align="center">
+      <el-table-column label="账号数量" width="200" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.account_count}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="设备权限" width="300" align="center">
+      <el-table-column label="手机权限" width="250" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" type="info" plain @click="selectAppAuth(scope.row)">选择手机设备</el-button>
+          <!-- <span>{{ scope.row.code }}</span> -->
+        </template>
+      </el-table-column>
+      <el-table-column label="设备权限" width="250" align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="info" plain @click="selectAuth(scope.row)">选择设备权限</el-button>
           <!-- <span>{{ scope.row.code }}</span> -->
@@ -38,6 +44,36 @@
     <div style="text-align: right;">
       <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" @pagination="getList" />
     </div>
+    <!-- 选择手机设备 -->
+    <el-dialog title="选择手机设备" :visible.sync="authAppVisible" width="30%">
+      <div>
+        <table class="table" style="width: 100%;" border="1" cellspacing="0" cellpadding="">
+          <thead>
+            <tr>
+              <th style="width: 15%;padding: 5px;">设备组</th>
+              <th>设备</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in appLists" :key="index">
+              <td><el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{item.name}}</el-checkbox></td>
+              <td>
+                <el-checkbox-group v-model="item.list" @change="handleCheckedCitiesChange">
+                  <el-checkbox v-for="(item) in item.list" :label="city" :key="city">{{city}}</el-checkbox>
+                </el-checkbox-group>
+              </td>
+            </tr>
+            <tr>
+              <td>Data</td>
+              <td>Data</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="buttons" style="margin-top: 15px;">
+        <el-button size="medium" type="primary" @click="saveAuth">保 存</el-button>
+      </div>
+    </el-dialog>
     <!-- 选择设备权限 -->
     <el-dialog title="选择设备权限" :visible.sync="authVisible" width="30%">
       <el-tree v-if="authVisible" :data="data" ref="tree" show-checkbox :default-checked-keys="selfAuth" node-key="id"
@@ -111,12 +147,52 @@
         },
         pnames: [],
         authVisible: false,
+        authAppVisible: false,
         dialogFormVisible: false,
         isAddForm: false,
         departmentForm: {},
         selfAuth: '',
-        department_id:null,
-        data: []
+        department_id: null,
+        data: [],
+        appLists: [{
+          group_id: 1,
+          name: '哈哈',
+          list: [{
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+            {
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+            {
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+          ]
+        }, {
+          group_id: 2,
+          name: '哈哈',
+          list: [{
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+            {
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+            {
+              id: 1,
+              name: '15937586268',
+              tel: '100'
+            },
+          ]
+        }]
       }
     },
     created() {
@@ -172,15 +248,24 @@
       selectBtn() {
         this.getList();
       },
+      //选择手机设备
+      selectAppAuth(data) {
+        this.selfAuth = JSON.parse(data.self_auth) ?? []
+        this.department_id = data.id
+        this.authAppVisible = true
+      },
       //选择设备权限
       selectAuth(data) {
         this.selfAuth = JSON.parse(data.self_auth) ?? []
-        this.department_id=data.id
+        this.department_id = data.id
         this.authVisible = true
       },
-      saveAuth(){
-        let device_auth=this.$refs.tree.getCheckedKeys();
-        updateDepartment({id:this.department_id,device_auth:device_auth}).then(res=>{
+      saveAuth() {
+        let device_auth = this.$refs.tree.getCheckedKeys();
+        updateDepartment({
+          id: this.department_id,
+          device_auth: device_auth
+        }).then(res => {
           if (res.code == 200) {
             this.authVisible = false
             this.$message({
