@@ -45,33 +45,9 @@
       <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" @pagination="getList" />
     </div>
     <!-- 选择手机设备 -->
-    <el-dialog title="选择手机设备" :visible.sync="authAppVisible" width="30%">
+    <el-dialog title="选择手机设备" :visible.sync="authAppVisible" width="40%">
       <div>
-        <table class="table" style="width: 100%;" border="1" cellspacing="0" cellpadding="">
-          <thead>
-            <tr>
-              <th style="width: 15%;padding: 5px;">设备组</th>
-              <th>设备</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item,index) in appLists" :key="index">
-              <td><el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{item.name}}</el-checkbox></td>
-              <td>
-                <el-checkbox-group v-model="item.list" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="(item) in item.list" :label="city" :key="city">{{city}}</el-checkbox>
-                </el-checkbox-group>
-              </td>
-            </tr>
-            <tr>
-              <td>Data</td>
-              <td>Data</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="buttons" style="margin-top: 15px;">
-        <el-button size="medium" type="primary" @click="saveAuth">保 存</el-button>
+        <SelectAppDevice :id="department_id" @closeDialog="closeDialog"></SelectAppDevice>
       </div>
     </el-dialog>
     <!-- 选择设备权限 -->
@@ -117,11 +93,13 @@
     delDepartment,
     updateDepartment
   } from '@/api/account.js'
+  import {getUserInfo} from '@/utils/auth'
   import Pagination from '@/components/Pagination'
-
+  import SelectAppDevice from '@/components/SelectAppDevice'
   export default {
     components: {
-      Pagination
+      SelectAppDevice,
+      Pagination,
     },
     filters: {
       statusFilter(type) {
@@ -154,45 +132,6 @@
         selfAuth: '',
         department_id: null,
         data: [],
-        appLists: [{
-          group_id: 1,
-          name: '哈哈',
-          list: [{
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-            {
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-            {
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-          ]
-        }, {
-          group_id: 2,
-          name: '哈哈',
-          list: [{
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-            {
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-            {
-              id: 1,
-              name: '15937586268',
-              tel: '100'
-            },
-          ]
-        }]
       }
     },
     created() {
@@ -250,9 +189,19 @@
       },
       //选择手机设备
       selectAppAuth(data) {
-        this.selfAuth = JSON.parse(data.self_auth) ?? []
-        this.department_id = data.id
-        this.authAppVisible = true
+        let type=getUserInfo().platform.type
+        if(type==0 || type==2){
+          this.department_id = data.id
+          this.authAppVisible = true
+        }else{
+          this.$message({
+            message: '该功能仅支持手机版！',
+            type: 'warning'
+          });
+        }
+      },
+      closeDialog(pa){
+        this.authAppVisible=false
       },
       //选择设备权限
       selectAuth(data) {

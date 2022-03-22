@@ -9,6 +9,15 @@ export function getDepartment(params) {
   })
 }
 
+// 获取部门手机权限
+export function getDepartmentAppAuth(params) {
+  return request({
+    url: '/department/appAuth',
+    method: 'get',
+    params
+  })
+}
+
 export function addDepartment(params) {
   return request({
     url: '/department',
