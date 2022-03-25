@@ -17,7 +17,7 @@
         </el-table-column>
         <el-table-column class-name="status-col" label="在线状态" width="150" align="center">
           <template slot-scope="scope">
-            <img v-if="scope.row.status && scope.row.status.status==1" style="width: 35px;" src="@/assets/images/online.png" >
+            <img v-if="onlines[scope.$index] && onlines[scope.$index].status==1" style="width: 35px;" src="@/assets/images/online.png" >
             <img v-else style="width: 32px;" src="@/assets/images/off.png" >
           </template>
         </el-table-column>
@@ -63,7 +63,7 @@
 
 <script>
   import {
-    getDeviceStatus
+    getDeviceStatus,getDeviceOnline
   } from '@/api/status.js'
   import Pagination from '@/components/Pagination'
 
@@ -87,6 +87,8 @@
         page: 1,
         limit: 20,
         list: null,
+        codes:[],
+        onlines:[],
         listLoading: true,
         filter: {
           name: ''
@@ -98,8 +100,10 @@
       this.getList()
       //轮询保持设备实时在线
       this.timer=setInterval(()=>{
-        this.getList(false)
-      },2000)
+        if(this.$route.path =='/status/device'){
+          this.getDeviceOnline()
+        }
+      },2500)
     },
     beforeDestroy() {
       if(this.timer){
@@ -116,6 +120,9 @@
           limit: this.limit
         }).then(res => {
           this.list = res.data.data
+          this.codes=this.list.map((item)=>{
+            return item.code
+          })
           this.total = res.data.total
           if(isLoading){
             this.listLoading = false
@@ -123,6 +130,12 @@
               this.listLoading = false
             }, 1.5 * 1000)
           }
+        })
+      },
+      //用于轮询实时更新在线状态
+      getDeviceOnline(){
+        getDeviceOnline({codes:this.codes}).then(res=>{
+          this.onlines=res.data
         })
       },
       handleCurrentChange(val) {

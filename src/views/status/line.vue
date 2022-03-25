@@ -28,8 +28,14 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="状态" width="150" align="center">
         <template slot-scope="scope">
+          <div v-if="lineStatus[scope.$index]">
+            <img :src="root+'/icons/'+lineStatus[scope.$index].status.icon" style="width: 25px;">
+            <p style="margin:  0;font-size: 12px;line-height: 1;">{{lineStatus[scope.$index].status.text}}</p>
+          </div>
+          <div v-else>
             <img :src="root+'/icons/'+scope.row.status.icon" style="width: 25px;">
             <p style="margin:  0;font-size: 12px;line-height: 1;">{{scope.row.status.text}}</p>
+          </div>
           <!-- <img v-if="scope.row.status && scope.row.status.status==1" style="width: 35px;" src="@/assets/images/online.png" >
           <img v-else style="width: 32px;" src="@/assets/images/off.png" > -->
         </template>
@@ -96,7 +102,7 @@
 
 <script>
   import {
-    getDeviceLine,updateDeviceLine
+    getDeviceLine,updateDeviceLine,getLineStatus
   } from '@/api/status.js'
   import Pagination from '@/components/Pagination'
 
@@ -120,6 +126,8 @@
         page: 1,
         limit: 20,
         list: null,
+        lineIds:[],
+        lineStatus:[],
         listLoading: true,
         root:'',
         filter: {
@@ -135,8 +143,10 @@
       this.getList()
       //轮询保持实时信息
       this.timer=setInterval(()=>{
-        this.getList(false)
-      },1000)
+        if(this.$route.path=='/status/device/line'){
+          this.getLineStatus()
+        }
+      },1500)
     },
     methods: {
       getList(isLoading=true) {
@@ -149,6 +159,9 @@
           code:this.$route.query.code
         }).then(res => {
           this.list = res.data.data
+          this.lineIds = this.list.map((item)=>{
+            return item.id;
+          })
           this.total = res.data.total
           if(isLoading){
             this.listLoading = false
@@ -188,6 +201,14 @@
       },
       indexMethod(index) {
         return index + 1 + (this.page - 1) * this.limit;
+      },
+      getLineStatus(){
+        getLineStatus({
+          code:this.$route.query.code,
+          lineIds:this.lineIds
+        }).then(res=>{
+          this.lineStatus=res.data
+        })
       }
     },
     beforeDestroy() {

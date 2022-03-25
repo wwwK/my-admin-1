@@ -7,6 +7,25 @@ export function getDeviceStatus(params) {
     params
   })
 }
+
+//仅在线状态
+export function getDeviceOnline(params) {
+  return request({
+    url: '/deviceOnline',
+    method: 'get',
+    params
+  })
+}
+
+//仅端口状态
+export function getLineStatus(params) {
+  return request({
+    url: '/deviceLine/status',
+    method: 'get',
+    params
+  })
+}
+
 export function getAppStatus(params) {
   return request({
     url: '/appStatus',
