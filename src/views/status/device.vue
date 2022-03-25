@@ -17,8 +17,14 @@
         </el-table-column>
         <el-table-column class-name="status-col" label="在线状态" width="150" align="center">
           <template slot-scope="scope">
-            <img v-if="onlines[scope.$index] && onlines[scope.$index].status==1" style="width: 35px;" src="@/assets/images/online.png" >
-            <img v-else style="width: 32px;" src="@/assets/images/off.png" >
+            <div v-if="onlines[scope.$index]">
+              <img v-if="onlines[scope.$index].status==1" style="width: 35px;" src="@/assets/images/online.png" >
+              <img v-else style="width: 32px;" src="@/assets/images/off.png" >
+            </div>
+            <div v-else>
+              <img v-if="scope.row.status && scope.row.status.status==1" style="width: 35px;" src="@/assets/images/online.png" >
+              <img v-else style="width: 32px;" src="@/assets/images/off.png" >
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="来电记录" width="160" align="center">
