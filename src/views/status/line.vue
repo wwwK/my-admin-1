@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <!-- <div class="filter-container" style="margin-bottom: 30px;">
       设备名称：
       <el-input class="filter-item" v-model="filter.name" style="width: 180px;"></el-input>
