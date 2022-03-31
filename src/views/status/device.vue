@@ -34,8 +34,8 @@
           </el-table-column>
           <el-table-column class-name="status-col" label="在线状态" width="150" align="center">
             <template slot-scope="scope">
-              <div v-if="onlines[scope.$index]">
-                <img v-if="onlines[scope.$index].status==1" style="width: 35px;" src="@/assets/images/online.png" >
+              <div v-if="Object.keys(onlines).length > 0">
+                <img v-if="onlines[scope.row.code]==1" style="width: 35px;" src="@/assets/images/online.png" >
                 <img v-else style="width: 32px;" src="@/assets/images/off.png" >
               </div>
               <div v-else>
